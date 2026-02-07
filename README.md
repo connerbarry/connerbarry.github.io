@@ -1,5 +1,5 @@
-# Conner Barry
-Senior Analytics Leader | Director of BI & Data Strategy | Inventor
+# William Conner Barry
+Senior Analytics Leader |  BI & Data Strategy | Inventor | AI Prototyper
 
 Melbourne, FL | [LinkedIn](https://www.linkedin.com/in/william-conner-barry-7755a977/) | connerbarry6@gmail.com
 
