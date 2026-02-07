@@ -29,6 +29,18 @@ End-to-end retail analytics pipeline built on the Superstore dataset:
 [View Repo →](https://github.com/connerbarry/retail-analytics-pipeline)  
 ![Retail Dashboard Preview](images/retaildashboard.jpg)
 
+### Multi-Format PDF Invoice Parser
+Enterprise-scale document processing system for automated data extraction from variant PDF formats:
+- Adaptive pattern matching handling 10+ invoice layout variations
+- Fuzzy description mapping to standardized taxonomy
+- Multi-entity extraction (dates, amounts, line items, account details)
+- Preserves Excel template structure including formulas and formatting
+- Processes 50+ invoices monthly with 99%+ accuracy
+
+**Impact**: Eliminated manual data entry for monthly financial consolidation workflow - (5 minutes per invoice to 0)
+
+**Tech stack**: Python, pdfplumber, pandas, openpyxl, regex, fuzzy matching
+
 ## Download Resume
 [Full Resume (PDF)](William_Barry_Resume_022026_v2.pdf)
 
