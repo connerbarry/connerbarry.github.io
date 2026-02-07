@@ -25,6 +25,18 @@ Solves personality vs. accuracy trade-off in LLMs.
 
 **Tech stack**: Python, PyTorch, Gemini API, RAG, NanoGPT
 
+### AgentAnalyze - Local Agentic RAG System
+Locally-run agentic AI system that ingests personal documents and answers questions using multi-step reasoning:
+
+- Direct GGUF model loading via llama-cpp-python — no server, no API dependency
+- Semantic search over document collections using ChromaDB vector store
+- ReAct-style agent loop with tool selection (search, read file, list files)
+- Dual-mode operation: fast single-pass RAG and multi-step agentic reasoning
+- Automated document ingestion supporting PDF, DOCX, CSV, and TXT formats
+- Runs entirely on CPU with no GPU — optimized for resource-constrained hardware
+
+**Tech stack**: Python, llama-cpp-python, ChromaDB, Mistral 7B (GGUF Q4), PyMuPDF, ReAct pattern
+
 ### Retail Analytics Pipeline (Snowflake + dbt + Power BI)
 End-to-end retail analytics pipeline built on the Superstore dataset:  
 - dbt staging and marts for data cleaning and derivation (net sales, return flags)  
