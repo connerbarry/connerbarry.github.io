@@ -16,6 +16,7 @@ Solves the personality vs. accuracy trade-off in Large Language Models using a h
 - Deterministic Dijkstra-based Knowledge Graph for factual retrieval  
 
 [View Repo →](https://github.com/connerbarry/chloe-hybrid-agent)  
+[View Interactive Architecture Diagram →](aiva-architecture.html)
 ![Chloe Architecture Diagram](images/aiva_prototype_diagram.png)  
 
 **Tech stack**: Python, PyTorch, Gemini API, RAG, NanoGPT
