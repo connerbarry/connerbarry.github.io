@@ -11,7 +11,7 @@ Results-driven leader with patented systems delivering $150M+ savings. Bridging 
 ### Chloe - Hybrid AI Agent
 Solves personality vs. accuracy trade-off in LLMs using Gemini orchestration + local NanoGPT "Soul" + Dijkstra Knowledge Graph.  
 [View Repo →](https://github.com/connerbarry/chloe-hybrid-agent)  
-![Architecture Diagram](images/aiva_prototype_diagram.pdf) 
+![Architecture Diagram](images/aiva_prototype_diagram.pdf)
 Tech: Python, PyTorch, Gemini API, RAG
 
 ### Retail Analytics Pipeline (Snowflake + dbt + Power BI)
