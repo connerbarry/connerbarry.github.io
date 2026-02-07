@@ -9,19 +9,19 @@ Results-driven senior analytics leader with 8+ years architecting enterprise-sca
 
 ## Key Projects
 
-### Chloe - Hybrid AI Agent
+### AIVA - Hybrid AI Agent
 Solves the personality vs. accuracy trade-off in Large Language Models using a hybrid architecture:  
 - Gemini API for high-level reasoning and orchestration  
 - Locally-trained NanoGPT model for consistent personality ("Soul")  
 - Deterministic Dijkstra-based Knowledge Graph for factual retrieval  
 
 [View Repo →](https://github.com/connerbarry/chloe-hybrid-agent)  
-### Chloe - Hybrid AI Agent (AIVA Architecture)
+### AIVA - Hybrid AI Agent (AIVA Architecture)
 Solves personality vs. accuracy trade-off in LLMs.
 
 <iframe src="aiva_architecture.html" width="100%" height="800px" style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);"></iframe>
  
-![Chloe Architecture Diagram](images/aiva_prototype_diagram.png)  
+![AIVA Architecture Diagram](images/aiva_prototype_diagram.png)  
 
 **Tech stack**: Python, PyTorch, Gemini API, RAG, NanoGPT
 
