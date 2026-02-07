@@ -21,5 +21,5 @@ Full-stack pipeline on Superstore data: dbt staging/marts, Snowflake Cortex AI s
 
 
 ## More
-Full resume: [images/William_Barry_Resume_022026 v2.pdf]  
+[Download Resume PDF](William_Barry_Resume_022026_v2.pdf)
 Contact: connerbarry6@gmail.com
