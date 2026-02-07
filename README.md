@@ -17,7 +17,7 @@ Tech: Python, PyTorch, Gemini API, RAG
 ### Retail Analytics Pipeline (Snowflake + dbt + Power BI)
 Full-stack pipeline on Superstore data: dbt staging/marts, Snowflake Cortex AI sentiment scoring, interactive dashboards.  
 [View Repo →](https://github.com/connerbarry/retail-analytics-pipeline)  
-![Embedded Dashboard:] (1769100032652.jpg)
+![Embedded Dashboard] (1769100032652.jpg)
 
 ### Patented Cash-Till Optimization (Production Example)
 Simplified demo of percentile-based algorithm logic.  
