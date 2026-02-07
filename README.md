@@ -19,9 +19,6 @@ Full-stack pipeline on Superstore data: dbt staging/marts, Snowflake Cortex AI s
 [View Repo →](https://github.com/connerbarry/retail-analytics-pipeline)  
 ![Embedded Dashboard](images/retaildashboard.jpg)
 
-### Patented Cash-Till Optimization (Production Example)
-Simplified demo of percentile-based algorithm logic.  
-//[Pseudocode Repo →](https://github.com/connerbarry/optimization-demo)
 
 ## More
 Full resume: [PDF Link]  
