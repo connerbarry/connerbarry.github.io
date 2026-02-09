@@ -1,0 +1,260 @@
+<!-- AI Boardroom Project Section -->
+<!-- Add this to your portfolio page on connerbarry.github.io -->
+
+<section class="project ai-boardroom">
+    <style>
+        .ai-boardroom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 20px;
+            color: white;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+        
+        .ai-boardroom .project-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .ai-boardroom h2 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .ai-boardroom .project-tagline {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+        
+        .ai-boardroom .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+        
+        .ai-boardroom .tech-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+        }
+        
+        .ai-boardroom .project-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .ai-boardroom .feature-list {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .ai-boardroom .feature-list h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        
+        .ai-boardroom .feature-list ul {
+            list-style: none;
+        }
+        
+        .ai-boardroom .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .ai-boardroom .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .ai-boardroom .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .ai-boardroom .metric-card {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .ai-boardroom .metric-card .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .ai-boardroom .metric-card .metric-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .ai-boardroom .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .ai-boardroom .btn {
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+        
+        .ai-boardroom .btn-primary {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .ai-boardroom .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .ai-boardroom .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .ai-boardroom .project-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-boardroom .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+    
+    <div class="project-header">
+        <h2>🏢 AI Boardroom</h2>
+        <p class="project-tagline">Multi-Agent Business Intelligence System</p>
+        
+        <div class="tech-stack">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Gemini AI</span>
+            <span class="tech-badge">Grok AI</span>
+            <span class="tech-badge">LinkedIn API</span>
+            <span class="tech-badge">SQLite</span>
+            <span class="tech-badge">Real-time Analytics</span>
+        </div>
+    </div>
+    
+    <div class="project-content">
+        <div class="feature-list">
+            <h3>🎯 What It Does</h3>
+            <ul>
+                <li>
+                    <span>🤖</span>
+                    <span><strong>Multi-AI Analysis:</strong> Gemini 2.5 (CFO) + Grok 3 (CMO) analyze real business data</span>
+                </li>
+                <li>
+                    <span>💰</span>
+                    <span><strong>Engagement → Revenue Model:</strong> Converts LinkedIn interactions into cash flow metrics</span>
+                </li>
+                <li>
+                    <span>📊</span>
+                    <span><strong>Time-based P&L:</strong> Daily profit/loss tracking with cost attribution per interaction</span>
+                </li>
+                <li>
+                    <span>🎯</span>
+                    <span><strong>Strategic Recommendations:</strong> AI executives provide actionable business strategy</span>
+                </li>
+                <li>
+                    <span>📈</span>
+                    <span><strong>Quarterly OKRs:</strong> Auto-generated objectives and key results based on data</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Real Data Points</div>
+                <div class="metric-value">1,281</div>
+                <div class="metric-label">LinkedIn interactions analyzed</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">AI Models</div>
+                <div class="metric-value">3</div>
+                <div class="metric-label">Executive agents (CFO, CMO, CEO)</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">Profit Margin</div>
+                <div class="metric-value">61%</div>
+                <div class="metric-label">Calculated by Gemini CFO</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-label">Channel ROI</div>
+                <div class="metric-value">97%</div>
+                <div class="metric-label">Direct messages (top performer)</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="feature-list" style="margin-top: 40px;">
+        <h3>🔧 Technical Highlights</h3>
+        <ul>
+            <li>
+                <span>⚡</span>
+                <span><strong>Real-time API Integration:</strong> Direct REST calls to Gemini & Grok APIs with custom system prompts</span>
+            </li>
+            <li>
+                <span>🗄️</span>
+                <span><strong>Data Pipeline:</strong> LinkedIn export → Parser → SQLite → AI analysis → Strategic output</span>
+            </li>
+            <li>
+                <span>💡</span>
+                <span><strong>Cost Attribution:</strong> Event-based variable costs + fixed daily costs for accurate P&L</span>
+            </li>
+            <li>
+                <span>🎨</span>
+                <span><strong>Multi-Agent Architecture:</strong> Each AI has specific role, expertise, and decision-making authority</span>
+            </li>
+            <li>
+                <span>📊</span>
+                <span><strong>Business Metrics Engine:</strong> Revenue, costs, margin, ROI calculated per interaction type</span>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="cta-buttons">
+        <a href="https://github.com/connerbarry/ai-boardroom" class="btn btn-primary" target="_blank">
+            View on GitHub
+        </a>
+        <a href="#" class="btn btn-secondary" id="see-demo">
+            See Live Demo
+        </a>
+    </div>
+</section>
+
+<script>
+// Optional: Add demo modal or redirect
+document.getElementById('see-demo')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Add your demo link or modal here
+    alert('AI Boardroom Demo - Contact for live demonstration');
+});
+</script>
