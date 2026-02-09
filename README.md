@@ -8,6 +8,13 @@ Melbourne, FL
 Results-driven senior analytics leader with 8+ years architecting enterprise-scale BI and AI solutions. Primary inventor of two patented optimization systems delivering **$150M+ in annual labor savings**. Expert at bridging traditional BI platforms (Power BI, Snowflake, SQL, dbt) with modern AI (Python, PyTorch, LLMs, RAG) to drive measurable business outcomes.
 
 ## Key Projects
+### AI Boardroom
+Analyzes LinkedIn data to recommend next courses of action
+- Uses exported personal data and manually input interactions (impressions, views, comments)
+- Converts interactions into "cash"
+- Uses Gemini and Grok as agents to recommend further actions
+  
+<iframe src="portfolio_section.html" width="100%" height="800px" style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);"></iframe>
 
 ### AIVA - Hybrid AI Agent
 Solves the personality vs. accuracy trade-off in Large Language Models using a hybrid architecture:  
