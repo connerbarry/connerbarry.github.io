@@ -31,7 +31,7 @@ A LinkedIn business intelligence system where AI executives (CFO + CMO) analyze 
 
 **Tech Stack**: Python, Gemini 2.5 API, Grok 3 API, LinkedIn Data Export, SQLite, REST APIs, time-series P&L analysis
 
-[View Visualization →](portfolio_section.html) | [GitHub Repo →](https://github.com/connerbarry/ai-boardroom)
+<iframe src="ai_boardroom_embed.html" width="100%" height="800px" style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);"></iframe>
 
 ### AIVA - Hybrid AI Agent
 Solves the personality vs. accuracy trade-off in Large Language Models using a hybrid architecture:  
