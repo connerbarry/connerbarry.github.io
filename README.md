@@ -82,6 +82,26 @@ Enterprise-scale document processing system for automated data extraction from v
 
 **Tech stack**: Python, pdfplumber, pandas, openpyxl, regex, fuzzy matching
 
+
+### ai-price-router — Intelligent LLM Cost Router
+Automatically routes AI requests to the optimal model using live pricing and quality data
+Built after identifying that most AI applications blindly use expensive frontier models regardless of task complexity — paying $25/MTok for work a $0.15/MTok model handles equally well.
+
+What it does:
+- Live Data Collection: Fetches pricing from OpenRouter (335+ models), LiteLLM (2,000+ models), and quality scores from Artificial Analysis (400+ models) daily via an automated scheduler
+- Local Task Classifier: Qwen 2.5 3B runs on-device via Ollama to classify prompts into task types (coding, math, reasoning, knowledge, simple) — zero API cost per classification
+- Three-Stage Routing: Availability filter → quality floor enforcement → quality-per-dollar optimization using live benchmark scores (intelligence index, coding index, math index)
+- OpenClaw Plugin: Adapter layer exposes routing as a tool any OpenClaw agent can invoke automatically, with /cost-report slash command for savings tracking
+- Key Finding: OpenRouter charges +900–1,580% markup on frontier models but is 90–94% cheaper than direct pricing on open-source models — the router automatically exploits this
+
+**Real routing results:**
+
+"Summarize this email" → gpt-oss-120b at $0.000053 (99.5% cheaper than Opus baseline)
+"Write a binary search tree" → gemini-3-flash at $0.000831 (91.7% cheaper)
+"Solve this integral" → deepseek-v3.2 at $0.000127 (98.7% cheaper)
+
+Tech stack: Python, SQLite, OpenRouter API, Artificial Analysis API, Ollama, Qwen 2.5 3B, TypeScript, OpenClaw SDK
+
 <iframe src="ai-price-router.html" width="100%" height="800px" style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);"></iframe>
 
 ## Download Resume
