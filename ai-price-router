@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Price Router — Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0a0c10;
+    --surface:   #0f1218;
+    --border:    #1e2530;
+    --accent:    #00e5ff;
+    --accent2:   #7c3aed;
+    --accent3:   #10b981;
+    --accent4:   #f59e0b;
+    --text:      #e2e8f0;
+    --muted:     #64748b;
+    --danger:    #ef4444;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 48px 32px;
+  }
+
+  h1 {
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+
+  .diagram-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .diagram-subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 40px;
+  }
+
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .diagram::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), transparent);
+  }
+
+  .diagram-label {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0.6;
+  }
+
+  /* ── Diagram 1: ai-price-router data flow ── */
+  .data-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 0;
+  }
+
+  .source-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .source {
+    background: #0a0c10;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  .source .name { color: var(--text); font-weight: 500; }
+  .source .detail { color: var(--muted); font-size: 10px; margin-top: 2px; }
+
+  .source.or { border-color: #00e5ff33; }
+  .source.or .name { color: var(--accent); }
+  .source.ll { border-color: #7c3aed33; }
+  .source.ll .name { color: var(--accent2); }
+  .source.aa { border-color: #10b98133; }
+  .source.aa .name { color: var(--accent3); }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    color: var(--muted);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .db-box {
+    background: #0a0c10;
+    border: 1px solid #f59e0b33;
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: center;
+  }
+
+  .db-box .icon { font-size: 28px; margin-bottom: 8px; }
+  .db-box .name { color: var(--accent4); font-weight: 700; font-size: 15px; }
+  .db-box .detail { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 4px; }
+
+  .tables {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .table-pill {
+    background: #1a1f2a;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-align: left;
+  }
+
+  .scheduler-box {
+    background: #0a0c10;
+    border: 1px solid #10b98133;
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+  }
+
+  .scheduler-box .name { color: var(--accent3); font-weight: 700; font-size: 13px; }
+  .scheduler-box .detail { color: var(--muted); font-size: 11px; font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+
+  /* ── Diagram 2: Three-stage routing ── */
+  .stages {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  .stage {
+    background: #0a0c10;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+  }
+
+  .stage-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .stage-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .stage-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .stage-example {
+    background: #0f1218;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .stage-example .ex-label { color: var(--accent); margin-bottom: 6px; font-size: 10px; letter-spacing: 0.1em; }
+  .stage-example .ex-pass { color: var(--accent3); }
+  .stage-example .ex-fail { color: var(--danger); }
+
+  .stage-1 { border-color: #00e5ff33; }
+  .stage-1 .stage-title { color: var(--accent); }
+  .stage-2 { border-color: #7c3aed33; }
+  .stage-2 .stage-title { color: var(--accent2); }
+  .stage-3 { border-color: #10b98133; }
+  .stage-3 .stage-title { color: var(--accent3); }
+
+  .stage-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--muted);
+    padding-top: 60px;
+  }
+
+  /* ── Diagram 3: Full stack ── */
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .stack-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    position: relative;
+  }
+
+  .stack-connector {
+    display: flex;
+    justify-content: center;
+    padding: 6px 0;
+    color: var(--muted);
+    font-size: 16px;
+    padding-left: 100px;
+  }
+
+  .stack-label-col {
+    padding: 16px 20px 16px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    border-right: 1px solid var(--border);
+  }
+
+  .stack-label {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    text-align: right;
+    letter-spacing: 0.05em;
+  }
+
+  .stack-repo {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 3px;
+    text-align: right;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .repo-oc { color: var(--accent2); background: #7c3aed15; }
+  .repo-mr { color: var(--accent); background: #00e5ff15; }
+  .repo-lo { color: var(--accent3); background: #10b98115; }
+
+  .stack-content-col {
+    padding: 16px 0 16px 20px;
+  }
+
+  .stack-node {
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: inline-block;
+    min-width: 200px;
+  }
+
+  .stack-node .node-title { font-weight: 700; font-size: 14px; }
+  .stack-node .node-detail { font-size: 12px; margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+
+  .node-user { background: #1a1f2a; border: 1px solid var(--border); }
+  .node-user .node-title { color: var(--text); }
+  .node-user .node-detail { color: var(--muted); }
+
+  .node-oc { background: #7c3aed15; border: 1px solid #7c3aed33; }
+  .node-oc .node-title { color: var(--accent2); }
+  .node-oc .node-detail { color: #9d6fffff; }
+
+  .node-bridge { background: #7c3aed0a; border: 1px solid #7c3aed22; }
+  .node-bridge .node-title { color: #a78bfa; }
+  .node-bridge .node-detail { color: var(--muted); }
+
+  .node-classifier { background: #10b98115; border: 1px solid #10b98133; }
+  .node-classifier .node-title { color: var(--accent3); }
+  .node-classifier .node-detail { color: #6ee7b7; }
+
+  .node-router { background: #00e5ff15; border: 1px solid #00e5ff33; }
+  .node-router .node-title { color: var(--accent); }
+  .node-router .node-detail { color: #67e8f9; }
+
+  .node-db { background: #f59e0b15; border: 1px solid #f59e0b33; }
+  .node-db .node-title { color: var(--accent4); }
+  .node-db .node-detail { color: #fcd34d; }
+
+  .node-model { background: #10b98115; border: 1px solid #10b98133; }
+  .node-model .node-title { color: var(--accent3); }
+  .node-model .node-detail { color: #6ee7b7; }
+
+  .savings-bar {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .savings-pill {
+    background: #0a0c10;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+
+  .savings-pill .pill-task { color: var(--muted); margin-bottom: 4px; }
+  .savings-pill .pill-model { color: var(--text); font-weight: 500; }
+  .savings-pill .pill-cost { color: var(--accent3); }
+  .savings-pill .pill-savings { color: var(--accent4); font-size: 10px; margin-top: 2px; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Diagram 1: ai-price-router Data Collection ── -->
+<h1>Diagram 01 / 03</h1>
+<div class="diagram-title">ai-price-router</div>
+<div class="diagram-subtitle">Daily data collection & storage</div>
+
+<div class="diagram">
+  <div class="diagram-label">Data Pipeline</div>
+  <div class="data-flow">
+
+    <div class="source-group">
+      <div class="source or">
+        <div class="name">OpenRouter API</div>
+        <div class="detail">335+ models · intermediary pricing</div>
+      </div>
+      <div class="source ll">
+        <div class="name">LiteLLM GitHub</div>
+        <div class="detail">2,000+ models · direct provider pricing</div>
+      </div>
+      <div class="source aa">
+        <div class="name">Artificial Analysis</div>
+        <div class="detail">400+ models · intelligence / coding / math scores</div>
+      </div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="scheduler-box">
+      <div class="name">agent_mr_price.py</div>
+      <div class="detail">runs daily @ 6:00 AM</div>
+      <div style="margin-top:12px; font-size:11px; color:#64748b; font-family:'JetBrains Mono',monospace; line-height:1.7;">
+        • fetch pricing<br>
+        • fetch quality scores<br>
+        • calc OR markups<br>
+        • backup DB
+      </div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="db-box">
+      <div class="icon">🗄️</div>
+      <div class="name">mr_price.db</div>
+      <div class="detail">SQLite · local storage</div>
+      <div class="tables">
+        <div class="table-pill">price_snapshots</div>
+        <div class="table-pill">quality_snapshots</div>
+        <div class="table-pill">markup_snapshots</div>
+      </div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="source" style="border-color:#00e5ff33;">
+        <div class="name" style="color:var(--accent);">router.py</div>
+        <div class="detail">live QPD routing</div>
+      </div>
+      <div class="source" style="border-color:#64748b33;">
+        <div class="name" style="color:#94a3b8;">trends.py</div>
+        <div class="detail">historical analysis CLI</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="savings-bar">
+    <div class="savings-pill">
+      <div class="pill-task">OR markup · frontier</div>
+      <div class="pill-model">GPT-5.2, Claude Opus</div>
+      <div class="pill-cost" style="color:var(--danger);">+900–1,580% over direct</div>
+    </div>
+    <div class="savings-pill">
+      <div class="pill-task">OR markup · open-source</div>
+      <div class="pill-model">Llama, Qwen, Gemma</div>
+      <div class="pill-cost">90–94% cheaper than direct</div>
+    </div>
+    <div class="savings-pill">
+      <div class="pill-task">top QPD model</div>
+      <div class="pill-model">gpt-oss-120b</div>
+      <div class="pill-cost">QPD 275.8 · $0.152/MTok</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── Diagram 2: Three-Stage Routing ── -->
+<h1>Diagram 02 / 03</h1>
+<div class="diagram-title">Three-Stage Routing Engine</div>
+<div class="diagram-subtitle">router.py — how the optimal model is selected</div>
+
+<div class="diagram">
+  <div class="diagram-label">Routing Pipeline</div>
+  <div class="stages">
+
+    <div class="stage stage-1">
+      <div class="stage-num">STAGE 01</div>
+      <div class="stage-title">Classify</div>
+      <div class="stage-desc">Local Qwen 2.5 3B reads the prompt and returns a task type. Runs on your machine — zero API cost, zero latency.</div>
+      <div class="stage-example">
+        <div class="ex-label">OUTPUT</div>
+        <div>"Write a BST" → <span class="ex-pass">coding</span></div>
+        <div>"Solve integral" → <span class="ex-pass">math</span></div>
+        <div>"Summarize" → <span class="ex-pass">simple</span></div>
+      </div>
+    </div>
+
+    <div class="stage-arrow">→</div>
+
+    <div class="stage stage-2">
+      <div class="stage-num">STAGE 02</div>
+      <div class="stage-title">Filter</div>
+      <div class="stage-desc">Quality floors remove models that aren't capable enough for the task type. No cheap-but-useless picks.</div>
+      <div class="stage-example">
+        <div class="ex-label">coding floors</div>
+        <div><span class="ex-pass">✓</span> gemini-3-flash · coding 42.6</div>
+        <div><span class="ex-fail">✗</span> deepseek-v3.2 · coding 36.7</div>
+        <div><span class="ex-fail">✗</span> gpt-5-mini · coding 35.3</div>
+      </div>
+    </div>
+
+    <div class="stage-arrow">→</div>
+
+    <div class="stage stage-3">
+      <div class="stage-num">STAGE 03</div>
+      <div class="stage-title">Optimize</div>
+      <div class="stage-desc">Among qualified models, rank by quality-per-dollar using live pricing. The winner delivers the most value per dollar.</div>
+      <div class="stage-example">
+        <div class="ex-label">QPD ranking · coding</div>
+        <div><span class="ex-pass">◄</span> gemini-3-flash · QPD 17.9</div>
+        <div style="color:var(--muted);">   qwen3.5-397b · QPD 15.0</div>
+        <div style="color:var(--muted);">   gpt-5.1 · QPD 5.7</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── Diagram 3: Full Stack ── -->
+<h1>Diagram 03 / 03</h1>
+<div class="diagram-title">Full Stack Overview</div>
+<div class="diagram-subtitle">openclaw-cost-optimizer + ai-price-router end-to-end</div>
+
+<div class="diagram">
+  <div class="diagram-label">Request Flow</div>
+  <div class="stack">
+
+    <div class="stack-item">
+      <div class="stack-label-col">
+        <div class="stack-label">user</div>
+      </div>
+      <div class="stack-content-col">
+        <div class="stack-node node-user">
+          <div class="node-title">User prompt</div>
+          <div class="node-detail">"Write a binary search tree"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-connector">↓</div>
+
+    <div class="stack-item">
+      <div class="stack-label-col">
+        <div class="stack-label">openclaw</div>
+        <div class="stack-repo repo-oc">openclaw-cost-optimizer</div>
+      </div>
+      <div class="stack-content-col">
+        <div class="stack-node node-oc">
+          <div class="node-title">OpenClaw Agent</div>
+          <div class="node-detail">invokes route_llm_request tool</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-connector">↓</div>
+
+    <div class="stack-item">
+      <div class="stack-label-col">
+        <div class="stack-label">plugin</div>
+        <div class="stack-repo repo-oc">openclaw-cost-optimizer</div>
+      </div>
+      <div class="stack-content-col">
+        <div class="stack-node node-bridge">
+          <div class="node-title">index.ts → route_request.py</div>
+          <div class="node-detail">TypeScript → Python subprocess bridge</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-connector">↓</div>
+
+    <div class="stack-item">
+      <div class="stack-label-col">
+        <div class="stack-label">classifier</div>
+        <div class="stack-repo repo-lo">local · ollama</div>
+      </div>
+      <div class="stack-content-col">
+        <div class="stack-node node-classifier">
+          <div class="node-title">Qwen 2.5 3B</div>
+          <div class="node-detail">classify task → "coding" · free · ~200ms</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-connector">↓</div>
+
+    <div class="stack-item">
+      <div class="stack-label-col">
+        <div class="stack-label">router</div>
+        <div class="stack-repo repo-mr">ai-price-router</div>
+      </div>
+      <div class="stack-content-col">
+        <div class="stack-node node-router">
+          <div class="node-title">router.py</div>
+          <div class="node-detail">filter 32 → 14 models · rank by QPD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-connector">↓</div>
+
+    <div class="stack-item">
+      <div class="stack-label-col">
+        <div class="stack-label">data</div>
+        <div class="stack-repo repo-mr">ai-price-router</div>
+      </div>
+      <div class="stack-content-col">
+        <div class="stack-node node-db">
+          <div class="node-title">mr_price.db</div>
+          <div class="node-detail">live pricing + quality scores · updated daily</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-connector">↓</div>
+
+    <div class="stack-item">
+      <div class="stack-label-col">
+        <div class="stack-label">execution</div>
+        <div class="stack-repo repo-lo">openrouter</div>
+      </div>
+      <div class="stack-content-col">
+        <div class="stack-node node-model">
+          <div class="node-title">google/gemini-3-flash-preview</div>
+          <div class="node-detail">$0.00083 · 91.7% cheaper than baseline</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
