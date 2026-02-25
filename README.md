@@ -82,6 +82,8 @@ Enterprise-scale document processing system for automated data extraction from v
 
 **Tech stack**: Python, pdfplumber, pandas, openpyxl, regex, fuzzy matching
 
+<iframe src="ai-price-router.html" width="100%" height="800px" style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);"></iframe>
+
 ## Download Resume
 [Full Resume (PDF)](William_Barry_Resume_022026_v2.pdf)
 
