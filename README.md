@@ -129,6 +129,9 @@ Tech stack: Python, SQLite, OpenRouter API, Artificial Analysis API, Ollama, Qwe
   - *Top 10 NFL teams by touchdowns in 2024* → auto-grouped by conference
 
   **Tech stack**: Python, Grok 3/4 (xAI API), Power BI, Flask, Plotly, pandas, Power Query M, DAX
+[View Repo →](https://github.com/connerbarry/agent-bi)  
+![agent bi Preview](images/agent_bi_example.png)
+
 
 ## Download Resume
 [Full Resume (PDF)](William_Barry_Resume_022026_v2.pdf)
