@@ -104,6 +104,32 @@ Tech stack: Python, SQLite, OpenRouter API, Artificial Analysis API, Ollama, Qwe
 
 <iframe src="ai-price-router.html" width="100%" height="800px" style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);"></iframe>
 
+ ### agent-bi — Autonomous BI Dashboard Builder
+  **Natural language → structured data → auto-populating Power BI dashboard**
+
+  A fully autonomous BI framework that takes any plain-English business question, fetches real-world data via live web
+  search, models it as a proper star schema, and delivers it directly to Power BI — with visuals that auto-populate on
+  every refresh.
+
+  **What it does:**
+  - **Live Data Fetching**: Grok 4 with live web search retrieves real, current data for any question — no pre-loaded
+  datasets
+  - **Automatic Star Schema**: Returns a normalized dimensional model (fact + entity + up to 3 group dimensions) with
+  explicit join keys — no manual modeling required
+  - **Power BI Integration**: A local question UI writes to `question.txt`; Power BI reads it on refresh via an embedded
+   Python script — visuals update automatically with zero report rebuilding
+  - **Dynamic Labels**: `metadata` table drives axis labels, titles, and data source attribution via DAX measures —
+  fully dynamic across any question
+  - **Plotly Output**: Also renders self-contained interactive HTML dashboards for ad-hoc use via CLI
+
+  **Example questions:**
+  - *Who are the top 5 selling artists of all time?* → ranked bar chart by genre
+  - *Which companies have the most revenue by year? Include industry, country, and employee size* → 3-dimensional
+  sliceable Power BI report
+  - *Top 10 NFL teams by touchdowns in 2024* → auto-grouped by conference
+
+  **Tech stack**: Python, Grok 3/4 (xAI API), Power BI, Flask, Plotly, pandas, Power Query M, DAX
+
 ## Download Resume
 [Full Resume (PDF)](William_Barry_Resume_022026_v2.pdf)
 
